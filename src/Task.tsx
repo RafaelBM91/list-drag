@@ -14,6 +14,7 @@ const Container = styled.div`
     justify-content: space-between;
     border: 1px solid lightgray;
     border-radius: 2px;
+    border-left: 3px solid orange;
     padding: 8px;
     margin: 0 0 8px 0;
     background-color: ${(props: any) => (props.isDragging) ? 'lightgreen' : 'white'};

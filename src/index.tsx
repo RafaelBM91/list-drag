@@ -35,12 +35,8 @@ const App = () => {
                 if (destination.droppableId === source.droppableId) {
                     let item = virtual_state_source[source.index];
                     virtual_state_source.splice(source.index, 1);
-                    console.log(virtual_state_source);
                     virtual_state_destination.splice(destination.index, 0, item);
-                    console.log(virtual_state_destination);
-                    register = `{
-                        "${destination.droppableId}": ${JSON.stringify(virtual_state_destination)},
-                    }`;
+                    register = `{"${destination.droppableId}": ${JSON.stringify(virtual_state_destination)}}`;
                 } else {
                     virtual_state_destination.splice(destination.index, 0, virtual_state_source[source.index]);
                     virtual_state_source.splice(source.index, 1);
@@ -52,8 +48,7 @@ const App = () => {
             } catch (e) {
                 console.error(e);
             }
-            if (state !== JSON.parse(register))
-                setState({ ...JSON.parse(register) });
+            setState({ ...state, ...JSON.parse(register) });
         }
     }
 
