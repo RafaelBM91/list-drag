@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { Column } from './Comlumn';
 import styled, { createGlobalStyle } from 'styled-components';
 
@@ -22,11 +22,6 @@ interface PositionModel {
     index: number;
 }
 
-interface EventDrag {
-    destination: PositionModel;
-    source: PositionModel;
-}
-
 const dataBase: DataModel = {
     todo: ['uno','dos','tres','cuatro','cinco','seis'],
     inProgress: []
@@ -39,25 +34,27 @@ const Container = styled.div`
 const App = () => {
     const [state, setState] = React.useState<DataModel>(dataBase);
 
-    const onDragEnd = (result: EventDrag) => {
+    const onDragEnd = (result: DropResult) => {
         let { destination, source } = result;
         if (destination && source) {
+            let nDestination = destination as PositionModel;
+            let nSource = source as PositionModel;
             let virtualState = state;
             let register = '{}';
-            let virtualStateDestination = virtualState[destination.droppableId];
-            let virtualStateSource = virtualState[source.droppableId];
+            let virtualStateDestination = virtualState[nDestination.droppableId];
+            let virtualStateSource = virtualState[nSource.droppableId];
             try {
-                if (destination.droppableId === source.droppableId) {
-                    let item = virtualStateSource[source.index];
-                    virtualStateSource.splice(source.index, 1);
-                    virtualStateDestination.splice(destination.index, 0, item);
-                    register = `{"${destination.droppableId}": ${JSON.stringify(virtualStateDestination)}}`;
+                if (nDestination.droppableId === nSource.droppableId) {
+                    let item = virtualStateSource[nSource.index];
+                    virtualStateSource.splice(nSource.index, 1);
+                    virtualStateDestination.splice(nDestination.index, 0, item);
+                    register = `{"${nDestination.droppableId}": ${JSON.stringify(virtualStateDestination)}}`;
                 } else {
-                    virtualStateDestination.splice(destination.index, 0, virtualStateSource[source.index]);
-                    virtualStateSource.splice(source.index, 1);
+                    virtualStateDestination.splice(nDestination.index, 0, virtualStateSource[nSource.index]);
+                    virtualStateSource.splice(nSource.index, 1);
                     register = `{
-                        "${destination.droppableId}": ${JSON.stringify(virtualStateDestination)},
-                        "${source.droppableId}": ${JSON.stringify(virtualStateSource)}
+                        "${nDestination.droppableId}": ${JSON.stringify(virtualStateDestination)},
+                        "${nSource.droppableId}": ${JSON.stringify(virtualStateSource)}
                     }`;
                 }
             } catch (e) {
@@ -69,9 +66,7 @@ const App = () => {
 
     return (
         <DragDropContext
-            onDragEnd={onDragEnd}
-            onDragStart={() => null}
-            onDragUpate={() => null}
+            onDragEnd={(result) => onDragEnd(result)}
         >
             <Container>
                 <Column title={'Todo'} task={state.todo} id={'todo'} />
