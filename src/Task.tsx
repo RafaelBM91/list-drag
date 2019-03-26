@@ -1,4 +1,5 @@
 import * as React from 'react';
+import propTypes from 'prop-types';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 
@@ -6,6 +7,10 @@ interface TaskModel {
     id: string;
     index: number;
     content: string;
+}
+
+interface ContainerModel {
+    isDragging: boolean;
 }
 
 const Container = styled.div`
@@ -17,7 +22,7 @@ const Container = styled.div`
     border-left: 3px solid orange;
     padding: 8px;
     margin: 0 0 8px 0;
-    background-color: ${(props: any) => (props.isDragging) ? 'lightgreen' : 'white'};
+    background-color: ${(style: ContainerModel) => (style.isDragging) ? 'lightgreen' : 'white'};
 `;
 
 const Handle = styled.div`
@@ -49,20 +54,26 @@ export const Task: React.FunctionComponent<TaskModel> = ({
     content
 }) => (
     <Draggable draggableId={id} index={index}>
-    {
-        (provided: any, snapshot: any) => (
-            <Container
-                {...provided.draggableProps}
-                ref={provided.innerRef}
-                isDragging={snapshot.isDragging}
-            >
-                <Handle {...provided.dragHandleProps} />
-                <WrapperContent>
-                    {content}
-                </WrapperContent>
-                <ViewPlus />
-            </Container>
-        )
-    }
+        {
+            (provided, snapshot) => (
+                <Container
+                    {...provided.draggableProps}
+                    ref={provided.innerRef}
+                    isDragging={snapshot.isDragging}
+                >
+                    <Handle {...provided.dragHandleProps} />
+                    <WrapperContent>
+                        {content}
+                    </WrapperContent>
+                    <ViewPlus />
+                </Container>
+            )
+        }
     </Draggable>
 );
+
+Task.propTypes = {
+    id: propTypes.string.isRequired,
+    index: propTypes.number.isRequired,
+    content: propTypes.string.isRequired
+};

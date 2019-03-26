@@ -6,6 +6,7 @@
     "@types/jest": "24.0.11",
     "@types/node": "11.11.6",
     "@types/react": "16.8.8",
+    "@types/react-beautiful-dnd": "^10.1.1",
     "@types/react-dom": "16.8.3",
     "react": "^16.8.5",
     "react-beautiful-dnd": "^10.1.0",
@@ -18,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src/*.tsx",
+    "lint:fix": "eslint --fix src/*.tsx"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,5 +39,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^1.5.0",
+    "@typescript-eslint/parser": "^1.5.0",
+    "eslint": "^5.15.3"
+  }
 }

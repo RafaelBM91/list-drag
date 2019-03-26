@@ -20,6 +20,6 @@
     "jsx": "preserve"
   },
   "include": [
-    "src"
+    "src", "config/react-app-env.d.ts", "config/serviceWorker.ts"
   ]
 }

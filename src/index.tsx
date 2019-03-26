@@ -12,7 +12,22 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-const data_base = {
+interface DataModel {
+    todo: string[];
+    inProgress: string[];
+}
+
+interface PositionModel {
+    droppableId: 'todo' | 'inProgress';
+    index: number;
+}
+
+interface EventDrag {
+    destination: PositionModel;
+    source: PositionModel;
+}
+
+const dataBase: DataModel = {
     todo: ['uno','dos','tres','cuatro','cinco','seis'],
     inProgress: []
 };
@@ -22,27 +37,27 @@ const Container = styled.div`
 `;
 
 const App = () => {
-    const [state, setState] = React.useState(data_base);
+    const [state, setState] = React.useState<DataModel>(dataBase);
 
-    const onDragEnd = (result: any) => {
+    const onDragEnd = (result: EventDrag) => {
         let { destination, source } = result;
         if (destination && source) {
-            let virtual_state: any = state;
-            let register = `{}`;
-            let virtual_state_destination = virtual_state[destination.droppableId];
-            let virtual_state_source = virtual_state[source.droppableId];
+            let virtualState = state;
+            let register = '{}';
+            let virtualStateDestination = virtualState[destination.droppableId];
+            let virtualStateSource = virtualState[source.droppableId];
             try {
                 if (destination.droppableId === source.droppableId) {
-                    let item = virtual_state_source[source.index];
-                    virtual_state_source.splice(source.index, 1);
-                    virtual_state_destination.splice(destination.index, 0, item);
-                    register = `{"${destination.droppableId}": ${JSON.stringify(virtual_state_destination)}}`;
+                    let item = virtualStateSource[source.index];
+                    virtualStateSource.splice(source.index, 1);
+                    virtualStateDestination.splice(destination.index, 0, item);
+                    register = `{"${destination.droppableId}": ${JSON.stringify(virtualStateDestination)}}`;
                 } else {
-                    virtual_state_destination.splice(destination.index, 0, virtual_state_source[source.index]);
-                    virtual_state_source.splice(source.index, 1);
+                    virtualStateDestination.splice(destination.index, 0, virtualStateSource[source.index]);
+                    virtualStateSource.splice(source.index, 1);
                     register = `{
-                        "${destination.droppableId}": ${JSON.stringify(virtual_state_destination)},
-                        "${source.droppableId}": ${JSON.stringify(virtual_state_source)}
+                        "${destination.droppableId}": ${JSON.stringify(virtualStateDestination)},
+                        "${source.droppableId}": ${JSON.stringify(virtualStateSource)}
                     }`;
                 }
             } catch (e) {
@@ -50,7 +65,7 @@ const App = () => {
             }
             setState({ ...state, ...JSON.parse(register) });
         }
-    }
+    };
 
     return (
         <DragDropContext
@@ -64,7 +79,7 @@ const App = () => {
             </Container>
         </DragDropContext>
     );
-}
+};
 
 ReactDOM.render(
     <>
