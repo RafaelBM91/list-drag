@@ -15,7 +15,8 @@ interface TaskList {
 }
 
 const Container = styled.div`
-    width: 400px;
+    width: 302px;
+    min-height: 200px;
     margin: 8px;
     border: 1px solid lightgray;
     border-radius: 2px;
@@ -29,8 +30,8 @@ const Title = styled.h3`
 const TaskList = styled.div`
     padding: 8px;
     transition: background-color 0.2s ease;
-    background-color: ${(style: TaskList) => (style.isDraggingOver) ? 'skyblue' : 'tranparent'};
-    min-height: calc(100% - 54px);
+    background-color: ${(style: TaskList) => (style.isDraggingOver) ? 'skyblue' : 'transparent'};
+    min-height: 150px;
 `;
 
 export const Column: React.FunctionComponent<ColummModel> = ({

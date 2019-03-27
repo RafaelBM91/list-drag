@@ -18,10 +18,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/*.tsx",
-    "lint:fix": "eslint --fix src/*.tsx"
+    "lint:fix": "eslint --fix src/*.tsx",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,8 +41,18 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@types/enzyme": "^3.9.1",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
     "@typescript-eslint/eslint-plugin": "^1.5.0",
     "@typescript-eslint/parser": "^1.5.0",
-    "eslint": "^5.15.3"
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "enzyme-to-json": "^3.3.5",
+    "eslint": "^5.15.3",
+    "jest": "^24.5.0",
+    "jest-config": "^24.5.0",
+    "ts-jest": "^24.0.0"
   }
 }
